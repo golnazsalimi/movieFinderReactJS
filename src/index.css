@@ -1,0 +1,115 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: rgb(43, 42, 40);
+  direction: ltr;
+  text-align: left;
+}
+#filmTitleSearch {
+  border-color: #6c757d;
+  border-radius: 0.25rem;
+  width: 30%;
+  display: inline;
+}
+.searchBar {
+  color: whitesmoke;
+}
+
+.resultSection {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+.card-title {
+  width: 280px;
+  height: 90px;
+}
+#genre {
+  width: 280px;
+  max-height: 50px;
+}
+.cardRating {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+.cardRatingFilled {
+  background: #d6651a;
+  color: rgb(24, 22, 22);
+  border-radius: 6px;
+  padding: 0 4px;
+  font-size: 14px;
+}
+.movieImg {
+  width: 280 px;
+  height: 400px;
+}
+
+.favButton {
+  color: red;
+}
+
+.btn-primary {
+  display: block;
+  color: white;
+  background-color: #455521;
+  border: 1px solid transparent;
+}
+
+.loginbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(170, 146, 111);
+}
+
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-dark {
+  display: block;
+  color: white;
+  background-color: #455521;
+  border: 1px solid transparent;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.btn-light {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.hide {
+  display: none;
+}
+
+.err {
+  border: transparent solid 1px;
+  color: rgb(139, 27, 27);
+}
