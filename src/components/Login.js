@@ -7,6 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [emailErr, setEmailErr] = useState("");
   const [passErr, setPassErr] = useState("");
+  const [hasEr, setHasErr] = useState("");
   const [displayErr, setDisplayErr] = useState("");
 
   const onSubmit = async (e) => {
@@ -14,10 +15,12 @@ const Login = () => {
 
     if (!username) {
       setEmailErr("please enter your email");
+      setHasErr(true);
       return;
     }
     if (!password) {
       setPassErr("Please enter your password");
+      setHasErr(true);
       return;
     }
 
@@ -27,12 +30,14 @@ const Login = () => {
       const checkPass = user.password === password;
       if (!checkPass) {
         setPassErr("Email or Password is wrong!!!");
+        setHasErr(true);
       } else {
         localStorage.setItem("user", JSON.stringify(user.id));
         window.location.href = "/";
       }
     } else {
       setDisplayErr("There is no such user, please signup.");
+      setHasErr(true);
     }
   };
 
@@ -48,7 +53,11 @@ const Login = () => {
           type="email"
           className="form-control"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => {
+            setUsername(e.target.value);
+            setEmailErr(false);
+            setHasErr(false);
+          }}
         />
         <div className={`${emailErr && "err"}`}>{emailErr}</div>
         <input
@@ -57,7 +66,11 @@ const Login = () => {
           className="textinput textInput form-control user-error"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setPassErr(false);
+            setHasErr(false);
+          }}
         />
         <div className={`${passErr && "err"}`}>{passErr}</div>
         <input

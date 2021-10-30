@@ -8,10 +8,14 @@ import Login from "./components/Login";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Favorite from "./components/Favorite";
-import UserLogged from "./components/UserLogged";
+import axios from "axios";
 
 function App() {
   const [movieIds, setMovieIds] = useState([]);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [userFavList, setUserFavList] = useState([]);
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
     // console.log(movieIds);
   }, [movieIds]);
@@ -20,9 +24,30 @@ function App() {
     setMovieIds([]);
     setMovieIds(list);
   };
+
+  useEffect(async () => {
+    if (localStorage.getItem("user")) {
+      const userID = localStorage.getItem("user");
+      await setLoggedInUserId(userID);
+    }
+  }, []);
+
+  useEffect(async () => {
+    if (loggedInUserId) {
+      const userData = await axios.get(
+        `http://localhost:5000/users/${loggedInUserId}`
+      );
+      console.log(userData.data.favorite);
+      setUserFavList(userData.data.favorite);
+      setUser(userData.data);
+    }
+  }, [loggedInUserId]);
+  const updateUser = (user) => {
+    setUser(user);
+  };
+
   return (
     <Router>
-      <UserLogged />
       <Header />
       <Route
         path="/"
@@ -33,7 +58,15 @@ function App() {
               <SearchMovie updateList={updatelist} />
               <div className="resultSection">
                 {movieIds.length > 0 &&
-                  movieIds.map((id) => <MovieCard movieId={id} />)}
+                  movieIds.map((id) => (
+                    <MovieCard
+                      movieId={id}
+                      loggedInUserId={loggedInUserId}
+                      userFavList={userFavList}
+                      user={user}
+                      updateUser={updateUser}
+                    />
+                  ))}
               </div>
             </div>
           </>

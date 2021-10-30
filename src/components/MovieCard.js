@@ -1,10 +1,21 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import UserLogged from "./UserLogged";
+import { useState, useEffect, useRef } from "react";
 
-const MovieCard = ({ movieId, loggedInUserId }) => {
+const MovieCard = ({
+  movieId,
+  loggedInUserId,
+  userFavList,
+  user,
+  updateUser,
+}) => {
   const [movieInfo, setMovieInfo] = useState(null);
+  const favButton = useRef(null);
+
+  useEffect(() => {
+    fetchInfo();
+    console.log(user);
+  }, []);
 
   const fetchInfo = async () => {
     const res = await axios.get(
@@ -13,9 +24,21 @@ const MovieCard = ({ movieId, loggedInUserId }) => {
     setMovieInfo(res.data);
   };
 
-  useEffect(() => {
-    fetchInfo();
-  }, []);
+  const like = async () => {
+    if (!user) return;
+    let check = userFavList.findIndex((fav) => fav == movieInfo.imdbID);
+    if (check == -1) {
+      user.favorite.push(movieInfo.imdbID);
+      updateUser(user);
+      await axios.put(`http://localhost:5000/users/${loggedInUserId}`, user);
+      favButton.current.classList.add("favButton");
+    } else {
+      user.favorite.splice(check, 1);
+      updateUser(user);
+      await axios.put(`http://localhost:5000/users/${loggedInUserId}`, user);
+      favButton.current.classList.remove("favButton");
+    }
+  };
 
   return (
     <div>
@@ -45,14 +68,15 @@ const MovieCard = ({ movieId, loggedInUserId }) => {
           </div>
           <div className="card-body">
             <button
+              ref={favButton}
               className={`btn ${loggedInUserId ? null : "hide"} ${
-                loggedInUserId &&
-                user.favorite.find((fav) => fav == movieInfo.imdbID)
+                loggedInUserId && userFavList.indexOf(movieInfo.imdbID) !== -1
                   ? "favButton"
                   : null
               }`}
               id={movieInfo.imdbID}
               type="submit"
+              onClick={like}
             >
               &hearts;
             </button>

@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 
-const AddFavorite = ({ onAdd }) => {
+const AddFavorite = ({ userFavList }) => {
   const [favorite, setFavorite] = useState([]);
 
   useEffect(() => {

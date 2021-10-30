@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const Header = () => {
+  const [isUserLogged, setIsUserLogged] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setIsUserLogged(true);
+    }
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -37,15 +46,24 @@ const Header = () => {
               to="/logIn"
               id="logBtn"
               role="button"
+              onClick={() => {
+                if (isUserLogged) {
+                  console.log("iiii");
+                  localStorage.removeItem("user");
+                  setIsUserLogged(false);
+                }
+              }}
             >
-              Log in
+              {isUserLogged ? "Log out" : "Log in"}
             </Link>
           </div>
-          <div className="navbar-nav">
-            <Link className="btn btn-dark" to="/signUp" role="button">
-              Sign up
-            </Link>
-          </div>
+          {!isUserLogged && (
+            <div className="navbar-nav">
+              <Link className="btn btn-dark" to="/signUp" role="button">
+                Sign up
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>
